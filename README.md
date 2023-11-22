@@ -1,9 +1,9 @@
 # The Noted Project
->>This project is for memo knowlege or everything you want to make a note.
+>This project is for memo knowlege or everything you want to make a note.
 This project mainly focus on backend how to make it secure try to make it safe as possible.
 *I'm beginner btw*
 
->> **Project structure**
+> **Project structure**
 + /project-root
     + backend/
         + main.go
