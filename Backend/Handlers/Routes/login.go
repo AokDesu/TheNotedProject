@@ -30,6 +30,6 @@ func HandlerLogin(db *sql.DB) http.HandlerFunc {
 		response := map[string]string{"token": token}
 		w.Header().Set("Content-type", "application/json")
 		json.NewEncoder(w).Encode(response)
-		w.WriteHeader(http.StatusOK)
+
 	}
 }
