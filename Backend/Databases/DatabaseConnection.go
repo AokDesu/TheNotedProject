@@ -8,7 +8,6 @@ import (
 
 func InitDB() (*sql.DB, error) {
 	db, err := sql.Open("postgres", "user=postgres password=bkokdoa0weqw31-i9!#@sdag1215 host=db.whcdsgtfrjzmcxcrrfca.supabase.co port=5432 dbname=postgres")
-
 	if err != nil {
 		return nil, err
 	}
@@ -28,5 +27,4 @@ func InitDB() (*sql.DB, error) {
 	}
 
 	return db, nil
-
 }

@@ -4,14 +4,13 @@ import (
 	models "Backend/Models"
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
-func InsertUser(db *sql.DB, username, password string) {
+func InsertUser(db *sql.DB, username, password string) bool {
 
 	sqlStatement := "INSERT INTO users (username, password, createdat) VALUES ($1, $2, $3);"
 
@@ -19,14 +18,15 @@ func InsertUser(db *sql.DB, username, password string) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(username)
-	fmt.Println(password)
-	fmt.Println(hashpsw)
-	result, err := db.Exec(sqlStatement, username, hashpsw, time.Now())
+
+	// fmt.Println(username)
+	// fmt.Println(password)
+	// fmt.Println(hashpsw)
+	_, err = db.Exec(sqlStatement, username, hashpsw, time.Now())
 	if err != nil {
-		panic(err)
+		return false
 	}
-	fmt.Println("Inseted user: ", result)
+	return true
 }
 
 func HandlersReg(DBcon *sql.DB) http.HandlerFunc {
@@ -36,14 +36,13 @@ func HandlersReg(DBcon *sql.DB) http.HandlerFunc {
 		if err != nil {
 			panic(err)
 		}
-		InsertUser(DBcon, user.Username, user.Password)
+
+		if !InsertUser(DBcon, user.Username, user.Password) {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusOK)
 	}
-}
-
-
-func CheckPasswordHash(hash, password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-	return err == nil
 }
 
 func HashPassword(password string) (string, error) {

@@ -14,7 +14,7 @@ func CreateUserTable(db *sql.DB) error {
 	END $$;
 	CREATE TABLE IF NOT EXISTS users (
 		Id SERIAL PRIMARY KEY,
-		Username TEXT NOT NULL,
+		Username TEXT NOT NULL UNIQUE,
 		Password TEXT NOT NULL,
 		Role UserRole DEFAULT 'member',
 		CreatedAt timestamp NOT NULL,
