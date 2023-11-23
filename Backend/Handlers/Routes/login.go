@@ -22,7 +22,7 @@ func HandlerLogin(db *sql.DB) http.HandlerFunc {
 			w.WriteHeader(http.StatusNotAcceptable)
 			return
 		}
-		token := authpk.GenerateJWT(db,user.Username)
+		token := authpk.GenerateJWT(db, user.Username)
 		if token == "" {
 			w.WriteHeader(http.StatusInternalServerError)
 			return

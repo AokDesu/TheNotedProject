@@ -24,7 +24,7 @@ func InsertUser(db *sql.DB, username, password string) bool {
 	// fmt.Println(hashpsw)
 	_, err = db.Exec(sqlStatement, username, hashpsw, time.Now())
 	if err != nil {
-		return false
+		return err == nil
 	}
 	return true
 }
@@ -46,6 +46,7 @@ func HandlersReg(DBcon *sql.DB) http.HandlerFunc {
 }
 
 func HashPassword(password string) (string, error) {
+
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	if err != nil {
 		return "", err
