@@ -9,6 +9,7 @@ import (
 )
 
 func InitDB() (*sql.DB, error) {
+	
 	databaseURL := os.Getenv("DATABASE_URL")
 	databasePASSWORD := os.Getenv("DATABASE_PASSWORD")
 

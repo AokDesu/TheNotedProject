@@ -1,42 +1,42 @@
-# The Noted Project
->This project is for memo knowlege or everything you want to make a note.
-This project mainly focus on backend how to make it secure try to make it safe as possible.
-*I'm beginner btw*
+# The Noted Project - A Knowledge Management and Note-Taking Platform.
+>This project is designed for note-taking and knowledge management, allowing users to create notes for various topics. It primarily focuses on backend development while prioritizing security measures for ensuring data safety. As a beginner, I'm using this project to practice Golang.
 
 > **Project structure**
 + /project-root
     + backend/
         + main.go
         + handlers/
-            + api.go
-            + auth.go
-            +  ...
-        + models/
+            + Middleware
+              + CORS.go 
+              + Auth 
+                + auth.go
+            + Routes
+              + page.go
+              + ...  
+        + Models/
             + user.go
-            + post.go
+            + Note.go
             + ...
-        + database/
+        + Databases/
             + database.go
-            + sql.db
-            + migrations/
-                + 001._initial.sql
-                + ...
+            + table.go
+            + ...
+    + .env
     + frontend/
         + svelte
             + svelte defualt structure...
 + gitignore
 + go.mod
 + go.sum
-+ .env
 + README.md
 
->**backend/:** This directory contains the Golang backend code.
-**main.go:** The entry point of your Golang application.
-**handlers/:** Handles HTTP requests and contains API endpoints.
-**models/:** Defines data models and structures.
-**database/:** Manages database connections and migrations.
-**frontend/:** https://kit.svelte.dev/docs/project-structure
-**go.mod:** This file contain version of dependencies.
-**go.sum** This file is check sum of each dependencies version in go.mod.
-*Everything in this project is not complete yet*
->*PS. I make this project for practice go*
+>**Backend/:** This directory contains the Golang backend code.
+>**main.go:** The entry point of your Golang application.
+>**Handlers/:** Handles HTTP requests and contains Middleware and API endpoints.
+>**Models/:** Defines data models and structures.
+>**Databases/:** Manages database connections and migrations.
+>**frontend/:** https://kit.svelte.dev/docs/project-structure
+>**go.mod:** This file contain version of dependencies.
+>**go.sum** This file is check sum of each dependencies version in go.mod.
+### *Everything in this project is not complete yet*
+>*PS. I make this project for practing golang. This is my first project. If you have any advices for me I'll be grateful to receive and improve myself thx.*
