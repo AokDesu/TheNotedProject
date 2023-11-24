@@ -3,17 +3,19 @@ package authpk
 import (
 	"database/sql"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
 
-var secretKey = "daskdosakdoakodakovcs1321"
+var secretKey string
 
 func GenerateJWT(DB *sql.DB, username string) string {
-	sqlStatement := "select id, role from users where username = $1"
 
+	secretKey = os.Getenv("SECRET_KEY")
+	sqlStatement := "select id, role from users where username = $1"
 	var id int
 	var role string
 
@@ -33,6 +35,7 @@ func GenerateJWT(DB *sql.DB, username string) string {
 	claims := token.Claims.(jwt.MapClaims)
 	claims["exp"] = time.Now().Add(time.Minute * 60).Unix()
 	claims["userId"] = id
+	claims["username"] = username
 	claims["role"] = role
 
 	tokenString, err := token.SignedString([]byte(secretKey))
@@ -44,8 +47,8 @@ func GenerateJWT(DB *sql.DB, username string) string {
 }
 
 func ValidateUser(DB *sql.DB, username, password string) bool {
-	sqlStatement := "select (password) from users where username = $1"
 
+	sqlStatement := "select (password) from users where username = $1"
 	rows, err := DB.Query(sqlStatement, username)
 	if err != nil {
 		return false
@@ -69,6 +72,9 @@ func CheckPasswordHash(hash, password string) bool {
 func ValidateToken(next http.HandlerFunc) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
+
+		secretKey = os.Getenv("SECRET_KEY")
+
 		getToken := r.Header.Get("Authorization")
 		if len(getToken) < 7 {
 			w.WriteHeader(http.StatusUnauthorized)
@@ -95,4 +101,29 @@ func ValidateToken(next http.HandlerFunc) http.HandlerFunc {
 		next(w, r)
 	}
 
+}
+
+func ClaimsToken(getToken string) (jwt.MapClaims, bool) {
+	secretKey = os.Getenv("SECRET_KEY")
+	if len(getToken) < 7 {
+
+		return nil, false
+	}
+	token := getToken[7:]
+	parseToken, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
+		return []byte(secretKey), nil
+	})
+
+	if err != nil {
+		return nil, false
+	}
+	if !parseToken.Valid {
+		return nil, false
+	}
+
+	claims, ok := parseToken.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, false
+	}
+	return claims, true
 }

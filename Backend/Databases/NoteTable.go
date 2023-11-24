@@ -15,13 +15,6 @@ func CreateNoteTable(db *sql.DB) error {
 		UpdatedAt timestamp,
 		FOREIGN KEY (UserId) REFERENCES users(Id)
 	);
-
-	CREATE TABLE IF NOT EXISTS note_images (
-		Id SERIAL PRIMARY KEY,
-		Images BYTEA,
-		NoteId INT,
-		FOREIGN KEY (NoteId) REFERENCES notes(Id)
-	);
 `
 	_, err := db.Exec(sqlStatement)
 	if err != nil {

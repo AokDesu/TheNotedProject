@@ -12,17 +12,13 @@ import (
 
 func InsertUser(db *sql.DB, username, password string) bool {
 
-	sqlStatement := "INSERT INTO users (username, password, createdat) VALUES ($1, $2, $3);"
+	sqlStatement := "INSERT INTO users (username, password, createdat, updatedat) VALUES ($1, $2, $3, $4);"
 
 	hashpsw, err := HashPassword(password)
 	if err != nil {
 		panic(err)
 	}
-
-	// fmt.Println(username)
-	// fmt.Println(password)
-	// fmt.Println(hashpsw)
-	_, err = db.Exec(sqlStatement, username, hashpsw, time.Now())
+	_, err = db.Exec(sqlStatement, username, hashpsw, time.Now(), time.Now())
 	if err != nil {
 		return err == nil
 	}
@@ -41,7 +37,11 @@ func HandlersReg(DBcon *sql.DB) http.HandlerFunc {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+		response := map[string]string{"register_successed": "Welcome to Website!"}
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(response)
+
 	}
 }
 

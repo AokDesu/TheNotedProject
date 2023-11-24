@@ -2,12 +2,17 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
+	"os"
 
 	_ "github.com/lib/pq"
 )
 
 func InitDB() (*sql.DB, error) {
-	db, err := sql.Open("postgres", "user=postgres password=bkokdoa0weqw31-i9!#@sdag1215 host=db.whcdsgtfrjzmcxcrrfca.supabase.co port=5432 dbname=postgres")
+	databaseURL := os.Getenv("DATABASE_URL")
+	databasePASSWORD := os.Getenv("DATABASE_PASSWORD")
+
+	db, err := sql.Open("postgres", fmt.Sprintf("user=postgres password=%s host=%s port=5432 dbname=postgres", databasePASSWORD, databaseURL))
 	if err != nil {
 		return nil, err
 	}

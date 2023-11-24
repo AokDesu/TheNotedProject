@@ -6,12 +6,25 @@ import (
 	authpk "Backend/Handlers/Middleware/Auth"
 	routes "Backend/Handlers/Routes"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
+func loadEnv() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+}
+
 func main() {
+
+	//Load .env
+	loadEnv()
+	
 	// Connect to Database
 	db, err := dbp.InitDB()
 	if err != nil {

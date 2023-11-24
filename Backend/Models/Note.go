@@ -10,9 +10,3 @@ type Note struct {
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 }
-
-type NoteImage struct {
-	Id     int    `json:"id,omitempty"`
-	Images []byte `json:"images,omitempty"`
-	NoteId int    `json:"note_id,omitempty"`
-}
