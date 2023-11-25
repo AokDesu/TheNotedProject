@@ -90,5 +90,6 @@ You'll receive a token. Add this token to the Headers section:
 Once the token is included in Postman, you can access the index page:
 > URL: http://localhost:8080/ (method: GET) <br/>
 
-**It will giving only user details if you didn't put data to database!**
-
+==========
+>### NOTE:
+>**Currently, adding data to the database must be done directly within the database itself. Future updates are planned to simplify this process within the application**
