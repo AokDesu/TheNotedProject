@@ -63,3 +63,32 @@ Open terminal and execute the following commands.
 
 **And then BOOM!. (HOPE IT WORKS :D)**
 
+============================================================================================
+# How to use
+You can use postman to send data in JSON format.
+### Register API:
+> URL: http://localhost:8080/api/v1/register (method: POST) <br/>
+> JSON: {<br/>
+>       "username": "your_user_name",<br/>
+>       "passoword": "your_pass_word"<br/>
+>    }
+
+### Login API:
+After you've registed, next step is go to login for get a token.
+
+> URL: http://localhost:8080/api/v1/login (method: POST) <br/>
+> JSON: {<br/>
+>       "username": "your_user_name",<br/>
+>       "passoword": "your_pass_word"<br/>
+>    }
+
+You'll receive a token. Add this token to the Headers section:
+> Authorization (key) <br/>
+> Bearer [your_token_here] (value)
+
+### Index API
+Once the token is included in Postman, you can access the index page:
+> URL: http://localhost:8080/ (method: GET) <br/>
+
+**It will giving only user details if you didn't put data to database!**
+
