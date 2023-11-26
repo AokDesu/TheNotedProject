@@ -86,10 +86,14 @@ You'll receive a token. Add this token to the Headers section:
 > Authorization (key) <br/>
 > Bearer [your_token_here] (value)
 
-### Index API
+### Index API:
 Once the token is included in Postman, you can access the index page:
 > URL: http://localhost:8080/ (method: GET) <br/>
 
-==========
->### NOTE:
->**Currently, adding data to the database must be done directly within the database itself. Future updates are planned to simplify this process within the application**
+### Insert note to database:
+> URL: http://localhost:8080/ (method: POST) <br/>
+> JSON: {<br/>
+>       "title": "your_title_name",<br/>
+>       "detail": "your_detail"<br/>
+>    }
+
