@@ -21,7 +21,7 @@
             + database.go
             + table.go
             + ...
-    + .env
+        + .env
     + frontend/
         + svelte
             + svelte defualt structure...
