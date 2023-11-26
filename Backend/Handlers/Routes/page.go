@@ -51,20 +51,62 @@ func GetNote(userId float64, username, role string) (map[string][]interface{}, e
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 
+	switch r.Method {
+	case http.MethodGet:
+		claims, ok := authpk.ClaimsToken(r.Header.Get("Authorization"))
+		if !ok {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+		userId, username, role := claims["userId"].(float64), claims["username"].(string), claims["role"].(string)
+
+		data, err := GetNote(userId, username, role)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Println("error: ", err)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(data)
+
+	case http.MethodPost:
+		InsertNote(w, r)
+	}
+
+}
+
+func InsertNote(w http.ResponseWriter, r *http.Request) {
+
+	var note models.Note
+	err := json.NewDecoder(r.Body).Decode(&note)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	claims, ok := authpk.ClaimsToken(r.Header.Get("Authorization"))
 	if !ok {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	userId, username, role := claims["userId"].(float64), claims["username"].(string), claims["role"].(string)
 
-	data, err := GetNote(userId, username, role)
+	userId := claims["userId"]
+
+	DB, err := db.InitDB()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Println("error: ", err)
+		return
+	}
+	sqlStatement := "INSERT INTO notes (title,detail,userid,createdat,updatedat) VALUES ($1, $2, $3, $4, $5);"
+
+	_, err = DB.Exec(sqlStatement, note.Title, note.Detail, userId, time.Now(), time.Now())
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(data)
+	json.NewEncoder(w).Encode(map[string]string{"response": "Yata desu ne~~"})
+
 }

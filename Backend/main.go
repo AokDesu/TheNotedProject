@@ -24,7 +24,7 @@ func main() {
 
 	//Load .env
 	loadEnv()
-	
+
 	// Connect to Database
 	db, err := dbp.InitDB()
 	if err != nil {
@@ -39,7 +39,7 @@ func main() {
 	defer db.Close()
 	// Router
 	r := mux.NewRouter()
-	r.HandleFunc("/", authpk.ValidateToken(routes.IndexHandler)).Methods("GET")
+	r.HandleFunc("/", authpk.ValidateToken(routes.IndexHandler)).Methods("GET", "POST")
 	r.HandleFunc("/api/v1/register", routes.HandlersReg(db)).Methods("POST")
 	r.HandleFunc("/api/v1/login", routes.HandlerLogin(db)).Methods("POST")
 
