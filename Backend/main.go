@@ -39,7 +39,7 @@ func main() {
 	defer db.Close()
 	// Router
 	r := mux.NewRouter()
-	r.HandleFunc("/", authpk.ValidateToken(routes.IndexHandler)).Methods("GET", "POST")
+	r.HandleFunc("/", authpk.ValidateToken(routes.IndexHandler)).Methods("GET", "POST", "PUT")
 	r.HandleFunc("/api/v1/register", routes.HandlersReg(db)).Methods("POST")
 	r.HandleFunc("/api/v1/login", routes.HandlerLogin(db)).Methods("POST")
 
