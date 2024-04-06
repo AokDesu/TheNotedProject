@@ -9,7 +9,7 @@ import (
 )
 
 func InitDB() (*sql.DB, error) {
-	
+
 	databaseURL := os.Getenv("DATABASE_URL")
 	databasePASSWORD := os.Getenv("DATABASE_PASSWORD")
 
@@ -23,7 +23,17 @@ func InitDB() (*sql.DB, error) {
 		return nil, err
 	}
 
+	err = CreateCategoriesTable(db)
+	if err != nil {
+		return nil, err
+	}
+
 	err = CreateNoteTable(db)
+	if err != nil {
+		return nil, err
+	}
+
+	err = CreateNoteCategories(db)
 	if err != nil {
 		return nil, err
 	}
